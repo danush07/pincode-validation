@@ -69,8 +69,8 @@ class PincodeValidator extends HTMLElement {
         #error {
           color: red;
         }
-        #deliveryInfo{
-            color: green;
+        #deliveryInfo {
+          color: green;
         }
       </style>
       <form id="pincodeForm">
@@ -82,9 +82,9 @@ class PincodeValidator extends HTMLElement {
       </form>
     `;
 
-    const shadowRoot = this.attachShadow({ mode: "open" });
-    shadowRoot.appendChild(template.content.cloneNode(true));
+    this.appendChild(template.content.cloneNode(true));
   }
+
   validatePincode(pincode) {
     return this.data.deliveryLocations.some(
       (location) => location.pincode === pincode
@@ -113,18 +113,18 @@ class PincodeValidator extends HTMLElement {
     pincodeInput.addEventListener("click", () => {
       errorElement.textContent = "";
     });
-     pincodeInput.addEventListener("input", () => {
-       pincodeInput.value = pincodeInput.value.replace(/\D/g, "");
-     });
+    pincodeInput.addEventListener("input", () => {
+      pincodeInput.value = pincodeInput.value.replace(/\D/g, "");
+    });
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const pincode = pincodeInput.value;
-    
-        if (pincode.length < 6) {
-          errorElement.textContent = "Pincode must be at least 6 characters.";
-          deliveryInfoElement.textContent = "";
-          return;
-        }
+
+      if (pincode.length < 6) {
+        errorElement.textContent = "Pincode must be at least 6 characters.";
+        deliveryInfoElement.textContent = "";
+        return;
+      }
       const isValid = this.validatePincode(pincode);
 
       if (isValid) {
