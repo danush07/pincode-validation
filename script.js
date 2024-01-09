@@ -58,7 +58,7 @@ class PincodeValidator extends HTMLElement {
   }
 
   connectedCallback() {
-    this.setupEventListeners();
+    this.checkPinCode();
   }
 
   validatePincode(pincode) {
@@ -83,7 +83,7 @@ class PincodeValidator extends HTMLElement {
     return date.toLocaleDateString("en-US", options);
   }
 
-  setupEventListeners() {
+  checkPinCode() {
     const form = this.querySelector("#pincodeForm");
     const pincodeInput = form.querySelector("input");
     const errorElement = this.querySelector("#error");
@@ -119,18 +119,16 @@ class PincodeValidator extends HTMLElement {
           );
 
           const formattedDeliveryDate = this.formatDate(estimatedDeliveryDate);
-          deliveryInfoElement.textContent = `Your order will be delivered on ${formattedDeliveryDate}.`;
+          deliveryInfoElement.textContent = `Your order will be delivered by ${formattedDeliveryDate}.`;
           errorElement.textContent = "";
-        } else {
-          errorElement.textContent = "Out of service area.";
-          deliveryInfoElement.textContent = "";
         }
       } else {
-        errorElement.textContent = "Invalid Pincode. Please try again.";
+        errorElement.textContent = "Out of service area.";
         deliveryInfoElement.textContent = "";
       }
     });
   }
+
 }
 
 customElements.define("pincode-validator", PincodeValidator);
