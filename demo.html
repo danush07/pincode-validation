@@ -7,6 +7,21 @@
 </head>
 <body>
   <pincode-validator>
+      <style>
+        #error {
+          color: red;
+        }
+        #deliveryInfo {
+          color: green;
+        }
+      </style>
+      <form id="pincodeForm">
+        <label for="pincode">Enter Pincode</label>
+        <input name="pincode" type="text" maxlength="6">
+        <button type="submit">Submit</button>
+        <p id="error"></p>
+        <p id="deliveryInfo"></p>
+      </form>
   </pincode-validator>
   <script src="./script.js"></script>
 </body>

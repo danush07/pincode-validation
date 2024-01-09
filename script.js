@@ -58,31 +58,7 @@ class PincodeValidator extends HTMLElement {
   }
 
   connectedCallback() {
-    this.render();
     this.setupEventListeners();
-  }
-
-  render() {
-    const template = document.createElement("template");
-    template.innerHTML = `
-      <style>
-        #error {
-          color: red;
-        }
-        #deliveryInfo {
-          color: green;
-        }
-      </style>
-      <form id="pincodeForm">
-        <label for="pincode">Enter Pincode</label>
-        <input name="pincode" type="text" maxlength="6">
-        <button type="submit">Submit</button>
-        <p id="error"></p>
-        <p id="deliveryInfo"></p>
-      </form>
-    `;
-
-    this.appendChild(template.content.cloneNode(true));
   }
 
   validatePincode(pincode) {
@@ -96,6 +72,7 @@ class PincodeValidator extends HTMLElement {
       (location) => location.pincode === pincode
     );
   }
+
   formatDate(date) {
     const options = {
       weekday: "long",
@@ -105,18 +82,22 @@ class PincodeValidator extends HTMLElement {
     };
     return date.toLocaleDateString("en-US", options);
   }
-  async setupEventListeners() {
-    const form = this.shadowRoot.getElementById("pincodeForm");
+
+  setupEventListeners() {
+    const form = this.querySelector("#pincodeForm");
     const pincodeInput = form.querySelector("input");
-    const errorElement = this.shadowRoot.getElementById("error");
-    const deliveryInfoElement = this.shadowRoot.getElementById("deliveryInfo");
+    const errorElement = this.querySelector("#error");
+    const deliveryInfoElement = this.querySelector("#deliveryInfo");
+
     pincodeInput.addEventListener("click", () => {
       errorElement.textContent = "";
     });
+
     pincodeInput.addEventListener("input", () => {
       pincodeInput.value = pincodeInput.value.replace(/\D/g, "");
     });
-    form.addEventListener("submit", async (e) => {
+
+    form.addEventListener("submit", (e) => {
       e.preventDefault();
       const pincode = pincodeInput.value;
 
@@ -125,6 +106,7 @@ class PincodeValidator extends HTMLElement {
         deliveryInfoElement.textContent = "";
         return;
       }
+
       const isValid = this.validatePincode(pincode);
 
       if (isValid) {
